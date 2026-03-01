@@ -1,5 +1,3 @@
-import customtkinter as ctk
-
 from frontend.interface import App
 from frontend.telas import SplashScreen
 
@@ -8,10 +6,10 @@ def main() -> None:
     app = App()
     app.withdraw()
 
-    def abrir_app() -> None:
+    def open_app() -> None:
         app.deiconify()
 
-    SplashScreen(app, abrir_app)
+    SplashScreen(app, on_close=open_app)
     app.mainloop()
 
 
