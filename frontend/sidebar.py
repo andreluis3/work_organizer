@@ -93,6 +93,8 @@ class Sidebar(ctk.CTkFrame):
             for key, button in self._buttons.items():
                 button.configure(text=self._labels[key], anchor="w")
 
+    
+
     def _animate_width(self, target_width: int) -> None:
         current_width = self.winfo_width()
         if current_width <= 1:
