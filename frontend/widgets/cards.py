@@ -12,7 +12,6 @@ class StatCard(ctk.CTkFrame):
             fg_color="#0b1220",
             border_color="#263449",
             border_width=1,
-            corner_radius=14,
             **kwargs,
         )
 

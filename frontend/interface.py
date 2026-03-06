@@ -10,6 +10,7 @@ from frontend.telas import (
     ConfiguracoesScreen,
     CursosScreen,
     DashboardScreen,
+    FocusScreen,
 )
 
 ctk.set_default_color_theme("blue")
@@ -26,7 +27,8 @@ class App(ctk.CTk):
         self.minsize(1100, 680)
         self.configure(fg_color="#04070f")
 
-        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=0)  # Sidebar NÃO expande
+        self.grid_columnconfigure(1, weight=1)  # Conteúdo expande
         self.grid_rowconfigure(0, weight=1)
 
         self.sidebar = Sidebar(self, controller=self.controller)
@@ -44,6 +46,13 @@ class App(ctk.CTk):
         screens = {
             "dashboard": DashboardScreen(self.container, self.controller),
             "agenda": AgendaScreen(self.container, self.controller),
+            "notes": AcademiaScreen(self.container, self.controller),
+            "tasks": CursosScreen(self.container, self.controller),
+            "focus": FocusScreen(self.container, self.controller),
+            "settings": ConfiguracoesScreen(self.container, self.controller),
+
+            # aliases para compatibilidade com rotas antigas
+            "focustime": FocusScreen(self.container, self.controller),
             "cursos": CursosScreen(self.container, self.controller),
             "academia": AcademiaScreen(self.container, self.controller),
             "configuracoes": ConfiguracoesScreen(self.container, self.controller),

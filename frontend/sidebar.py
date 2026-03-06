@@ -44,9 +44,10 @@ class Sidebar(ctk.CTkFrame):
         items = [
             ("dashboard", "Dashboard", "home.png"),
             ("agenda", "Agenda", "calendar.png"),
-            ("cursos", "Cursos", "task.png"),
-            ("academia", "Academia", "leaf.png"),
-            ("configuracoes", "Configurações", "task.png"),
+            ("notes", "Notes", "leaf.png"),
+            ("tasks", "Tasks", "task.png"),
+            ("focus", "Focus", "png1.png"),
+            ("settings", "Settings", "png2.png"),
         ]
 
         for row, (key, label, icon_name) in enumerate(items, start=1):
@@ -104,6 +105,6 @@ class Sidebar(ctk.CTkFrame):
             self.configure(width=target_width)
             return
 
-        step = 12 if target_width > current_width else -12
+        step = 12 if target_width > current_width else -15
         self.configure(width=current_width + step)
         self._anim_job = self.after(12, lambda: self._animate_width(target_width))
