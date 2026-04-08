@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from backend.database.conexao import conectar, registrar_sessao, inicializar_banco
+from backend.database.conexao import registrar_sessao
 
 class PomodoroManager:
 

@@ -1,4 +1,4 @@
-from database  import conectar
+from backend.database.conexao import *
 
 def criar_tabelas():
     conn = conectar()
@@ -44,5 +44,24 @@ def criar_tabelas():
     )
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS notes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    conteudo TEXT,
+    data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao DATETIME
+                            );
+    """)
+
+    cursor.execute("""
+    CREATE INDEX IF NOT EXISTS idx_notes_titulo ON notes(titulo);
+    """)
+               
     conn.commit()
     conn.close()
+
+
+if __name__ == "__main__":
+    criar_tabelas()
+    print("Tabelas criadas com sucesso.")

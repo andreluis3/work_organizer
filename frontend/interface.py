@@ -5,12 +5,12 @@ import customtkinter as ctk
 from frontend.app_controller import AppController
 from frontend.sidebar import Sidebar
 from frontend.telas import (
-    AcademiaScreen,
     AgendaScreen,
     ConfiguracoesScreen,
     CursosScreen,
     DashboardScreen,
     FocusScreen,
+    NotesScreen
 )
 
 ctk.set_default_color_theme("blue")
@@ -46,15 +46,14 @@ class App(ctk.CTk):
         screens = {
             "dashboard": DashboardScreen(self.container, self.controller),
             "agenda": AgendaScreen(self.container, self.controller),
-            "notes": AcademiaScreen(self.container, self.controller),
+            "notes": NotesScreen(self.container, self.controller),
             "tasks": CursosScreen(self.container, self.controller),
             "focus": FocusScreen(self.container, self.controller),
             "settings": ConfiguracoesScreen(self.container, self.controller),
 
-            # aliases para compatibilidade com rotas antigas
+            # aliases
             "focustime": FocusScreen(self.container, self.controller),
             "cursos": CursosScreen(self.container, self.controller),
-            "academia": AcademiaScreen(self.container, self.controller),
             "configuracoes": ConfiguracoesScreen(self.container, self.controller),
         }
 

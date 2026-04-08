@@ -1,25 +1,35 @@
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent.parent / "database" / "organizador.db"
+BASE_DIR = Path(__file__).resolve().parents[2]
+DB_PATH = BASE_DIR / "organizador.db"
+
 
 def conectar():
-    # cria pasta database se não existir
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn 
-
+    return sqlite3.connect(DB_PATH)
 
 
 def inicializar_banco():
+
     conn = conectar()
     cursor = conn.cursor()
 
-    # ---------------------------
-    # Tabela de sessões Pomodoro
-    # ---------------------------
+    # -----------------------------
+    # Tabela de notas
+    # -----------------------------
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS notes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        titulo TEXT UNIQUE,
+        conteudo TEXT,
+        data_criacao DATETIME,
+        data_atualizacao DATETIME
+    )
+    """)
+
+    # -----------------------------
+    # Pomodoro
+    # -----------------------------
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS pomodoro (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,10 +41,9 @@ def inicializar_banco():
     )
     """)
 
-    # ---------------------------
-    # Tabela de progresso usuário
-    # (XP de foco)
-    # ---------------------------
+    # -----------------------------
+    # Progresso usuário
+    # -----------------------------
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS progresso_usuario (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,10 +54,9 @@ def inicializar_banco():
     )
     """)
 
-    # ---------------------------
-    # Tabela futura de tarefas
-    # (integração planner)
-    # ---------------------------
+    # -----------------------------
+    # Tarefas
+    # -----------------------------
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS tarefas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,7 +71,11 @@ def inicializar_banco():
     conn.close()
 
 
+# -----------------------------
+# Registrar sessão pomodoro
+# -----------------------------
 def registrar_sessao(tarefa_id, inicio, fim, observacao=None):
+
     conn = conectar()
     cursor = conn.cursor()
 
@@ -85,6 +97,8 @@ def registrar_sessao(tarefa_id, inicio, fim, observacao=None):
         duracao,
         observacao
     ))
+
+    print(f"[DEBUG] Sessão Pomodoro registrada | duração: {duracao} min")
 
     conn.commit()
     conn.close()

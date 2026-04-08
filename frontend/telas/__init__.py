@@ -1,4 +1,4 @@
-from frontend.telas.academia import AcademiaScreen
+from frontend.telas.notes import NotesScreen
 from frontend.telas.agenda import AgendaScreen
 from frontend.telas.configuracoes import ConfiguracoesScreen
 from frontend.telas.cursos import CursosScreen
@@ -9,8 +9,8 @@ from frontend.telas.splash import SplashScreen
 __all__ = [
     "DashboardScreen",
     "AgendaScreen",
+    "NotesScreen",
     "CursosScreen",
-    "AcademiaScreen",
     "FocusScreen",
     "ConfiguracoesScreen",
     "SplashScreen",
