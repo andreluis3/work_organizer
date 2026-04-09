@@ -10,7 +10,8 @@ from frontend.telas import (
     CursosScreen,
     DashboardScreen,
     FocusScreen,
-    NotesScreen
+    NotesScreen,
+    TasksPage,
 )
 
 ctk.set_default_color_theme("blue")
@@ -45,9 +46,9 @@ class App(ctk.CTk):
     def _build_screens(self) -> None:
         screens = {
             "dashboard": DashboardScreen(self.container, self.controller),
+            "tasks": lambda: TasksPage(self.container, self.controller),
             "agenda": AgendaScreen(self.container, self.controller),
             "notes": NotesScreen(self.container, self.controller),
-            "tasks": CursosScreen(self.container, self.controller),
             "focus": FocusScreen(self.container, self.controller),
             "settings": ConfiguracoesScreen(self.container, self.controller),
 

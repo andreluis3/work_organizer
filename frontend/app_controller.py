@@ -15,13 +15,13 @@ class AppController:
         self.state = AppState(theme=self.settings.theme)
         self.toast_manager = ToastManager(app)
 
-        self.screens: dict[str, ctk.CTkFrame] = {}
+        self.screens: dict[str, ctk.CTkFrame | callable] = {}
         self.sidebar = None
 
     def register_sidebar(self, sidebar) -> None:
         self.sidebar = sidebar
 
-    def register_screen(self, name: str, screen: ctk.CTkFrame) -> None:
+    def register_screen(self, name: str, screen: ctk.CTkFrame | callable) -> None:
         self.screens[name] = screen
 
     def show_screen(self, name: str) -> None:
@@ -32,6 +32,9 @@ class AppController:
             self.screens[self.state.current_screen].grid_remove()
 
         target = self.screens[name]
+        if callable(target):
+            target = target()
+            self.screens[name] = target
         target.grid(row=0, column=0, sticky="nsew")
         self.state.current_screen = name
 

@@ -1,0 +1,15 @@
+meu focus time esta com problema conforme o tempo vai passando ele n vai atualizando a imagem 
+meu botao de start e pause --> conforme eu clico em pausa, o start continua la, mas se eu clicar em pause o start deveria ser resume 
+
+quero adicionar umas coisas:
+uma delas é configurar o tempo de sessao de foco 
+
+adicionar um campo com varios emojis de arvore simulando o mes de foco 
+
+na interface na aba de tasks tenho um problema que é aquela parada, tenho aqui tasks e tenho os botoes All ,In progress, Done, Stagnated 
+gostaria entao de para deixar a interface limpa, ele so carrega as tasks e os cards conformes a gente clica ali 
+
+temos um porem na aba 
+quando abre ou fecha aquela sidebar de menu, me ajuda a deixar mais dinamico e deixar ele melhor mais fluido ta mt travado atualmente 
+mase sem deixar ele pesado 
+

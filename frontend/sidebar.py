@@ -43,9 +43,9 @@ class Sidebar(ctk.CTkFrame):
 
         items = [
             ("dashboard", "Dashboard", "home.png"),
-            ("agenda", "Agenda", "calendar.png"),
-            ("notes", "Notes", "leaf.png"),
             ("tasks", "Tasks", "task.png"),
+            ("agenda", "Calendar", "calendar.png"),
+            ("notes", "Notes", "leaf.png"),
             ("focus", "Focus", "png1.png"),
             ("settings", "Settings", "png2.png"),
         ]
