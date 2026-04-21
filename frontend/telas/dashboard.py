@@ -493,7 +493,7 @@ class HomeUI(ctk.CTkFrame):
         self.controller = controller
         self.data_provider = DashboardDataProvider()
         self.snapshot: DashboardSnapshot | None = None
-        self._chart_canvases: List[FigureCanvasTkAgg] = []
+        self._chart_canvases = []
         self._streak_color_index = 0
         self._streak_colors = [ORANGE, "#F59E0B", "#FDBA74"]
 
