@@ -1,20 +1,42 @@
+import customtkinter as ctk
+import threading
+
+from frontend.loading_screen import LoadingScreen
 from frontend.interface import App
-from frontend.telas import SplashScreen
-from backend.database.conexao import conectar, inicializar_banco
 
 
-def main() -> None:
+class MainApplication(ctk.CTk):
+    def __init__(self):
+        super().__init__()
 
+        self.title("Work Organizer")
+        self.geometry("1200x800")
 
-    def open_app() -> None:
-        app.deiconify()
+        ctk.set_appearance_mode("dark")
+        ctk.set_default_color_theme("blue")
 
-    SplashScreen(app, on_close=open_app)
-    app.mainloop()
-    
+        # Loading
+        self.loading = LoadingScreen(self)
+
+        # Thread para carregar
+        threading.Thread(target=self._load_app, daemon=True).start()
+
+    def _load_app(self):
+        import time
+        time.sleep(1.5)  # simulação
+
+        self.after(0, self._start_app)
+
+    def _start_app(self):
+        self.loading.destroy()
+
+        self.app = App(self)  # App agora precisa ser CTkFrame
+        self.app.pack(fill="both", expand=True)
+        self.title("Organizador de Trabalho")
+        self.geometry("1240x760")
+        self.minsize(1100, 680)
+
 
 if __name__ == "__main__":
-    inicializar_banco()
-
-    app = App()
+    app = MainApplication()
     app.mainloop()

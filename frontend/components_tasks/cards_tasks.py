@@ -7,7 +7,7 @@ class TaskCard(ctk.CTkFrame):
     def __init__(self, master, task, subtasks, on_progress_change=None, **kwargs):
         super().__init__(
             master,
-            fg_color="#0b1220",
+            fg_color="#111827"  ,
             border_color="#263449",
             border_width=1,
             corner_radius=16,
@@ -48,6 +48,9 @@ class TaskCard(ctk.CTkFrame):
         self.progress = ctk.CTkProgressBar(self, height=10)
         self.progress.pack(fill="x", padx=16, pady=(10, 16))
         self._update_progress()
+        
+        self.bind("<Enter>", lambda e: self.configure(fg_color="#1f2937"))
+        self.bind("<Leave>", lambda e: self.configure(fg_color="#111827"))
 
     def _on_toggle(self, subtask, var):
         if var.get() != 1:
@@ -74,7 +77,7 @@ class CourseCard(ctk.CTkFrame):
     def __init__(self, master, task, course, on_progress_change=None, **kwargs):
         super().__init__(
             master,
-            fg_color="#0b1220",
+            fg_color="#111827"  ,
             border_color="#263449",
             border_width=1,
             corner_radius=16,
@@ -176,7 +179,8 @@ class HistoryItem(ctk.CTkFrame):
     def __init__(self, master, title, completed_at, **kwargs):
         super().__init__(
             master,
-            fg_color="#0b1220",
+            fg_color="#111827"  ,
+            hover_color="#1f2937",
             border_color="#263449",
             border_width=1,
             corner_radius=12,

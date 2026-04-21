@@ -1,3 +1,5 @@
+from tkinter import messagebox
+
 import customtkinter as ctk
 from backend import task_manager
 from frontend.components_tasks.cards_tasks import TaskCard, CourseCard, HistoryItem
@@ -40,7 +42,12 @@ class TasksPage(BaseScreen):
         actions = ctk.CTkFrame(self.header_frame, fg_color="transparent")
         actions.grid(row=0, column=1, sticky="e")
 
-        self.new_task_btn = ctk.CTkButton(actions, text="New Task", command=self._open_new_task)
+        self.new_task_btn = ctk.CTkButton(
+        actions,
+        text="+ New Task",
+    
+        hover_color="#1d4ed8"
+    )
         self.new_task_btn.grid(row=0, column=0, padx=(0, 8))
         self.new_course_btn = ctk.CTkButton(actions, text="New Course", command=self._open_new_course)
         self.new_course_btn.grid(row=0, column=1)
@@ -56,50 +63,24 @@ class TasksPage(BaseScreen):
         )
         self.filter.set("Todas")
         self.filter.pack(anchor="w")
-
+            
     def _create_main_container(self):
         self.main_frame = ctk.CTkFrame(self.content, fg_color="transparent")
         self.main_frame.grid(row=2, column=0, sticky="nsew")
         self.main_frame.grid_columnconfigure(0, weight=1)
 
-        self.tasks_container = ctk.CTkFrame(self.main_frame, fg_color="transparent")
-        self.tasks_container.grid(row=0, column=0, sticky="nsew")
-        self.tasks_container.grid_columnconfigure(0, weight=1)
+        self.progress_section = _Section(self.main_frame, "🔥 Em Progresso")
+        self.progress_section.grid(row=0, column=0, sticky="ew", pady=(0, 16))
 
-        # Seções (visíveis de acordo com o filtro)
-        self.progress_section = _Section(self.tasks_container, "Tasks em Progresso")
-        self.done_section = _Section(self.tasks_container, "Tasks Concluídas")
-        self.stagnant_section = _Section(self.tasks_container, "Tasks Estagnadas")
-        self.history_section = _Section(self.tasks_container, "Histórico")
+        self.done_section = _Section(self.main_frame, "✅ Concluídas")
+        self.done_section.grid(row=1, column=0, sticky="ew", pady=(0, 16))
 
+        self.history_section = _Section(self.main_frame, "📜 Histórico")
+        self.history_section.grid(row=2, column=0, sticky="ew")
+        
     def _on_filter_change(self, value):
         self._current_filter = value
         self.refresh()
-
-    def refresh(self):
-        tasks = task_manager.get_all_tasks()
-        stagnant = task_manager.get_stagnant_tasks()
-        history = task_manager.get_history_items()
-
-        # Filtragem dinâmica
-        if self._current_filter == "Em Progresso":
-            visible = [t for t in tasks if t.get("status") != "done"]
-        elif self._current_filter == "Feitas":
-            visible = [t for t in tasks if t.get("status") == "done"]
-        elif self._current_filter == "Estagnadas":
-            visible = stagnant
-        else:
-            visible = tasks
-
-        # Separação por seção
-        progress_items = [t for t in visible if t.get("status") != "done"]
-        done_items = [t for t in visible if t.get("status") == "done"]
-
-        # Limpar e mostrar seções conforme necessário
-        self.progress_section.set_items(progress_items)
-        self.done_section.set_items(done_items)
-        self.stagnant_section.set_items(visible if self._current_filter == "Estagnadas" else [])
-        self.history_section.set_history(history)
 
     def _open_new_task(self):
         dialog = _TaskDialog(self, "Nova Task")
@@ -199,7 +180,10 @@ class _TaskDialog(ctk.CTkToplevel):
         self.title(title)
         self.geometry("420x360")
         self.resizable(False, False)
-        self.grab_set()
+        self.title_entry = ctk.CTkEntry(self)
+        self.title_entry.pack(fill="x", padx=20)
+        self.title_entry.focus()
+        #self.grab_set()
 
         ctk.CTkLabel(self, text="Title", font=("Segoe UI", 12, "bold")).pack(anchor="w", padx=20, pady=(20, 6))
         self.title_entry = ctk.CTkEntry(self)
@@ -217,6 +201,7 @@ class _TaskDialog(ctk.CTkToplevel):
 
         ctk.CTkButton(action, text="Cancel", command=self._cancel).grid(row=0, column=0, sticky="w")
         ctk.CTkButton(action, text="Create", command=self._confirm).grid(row=0, column=1, sticky="e")
+        messagebox.showinfo("Sucesso", "Task criada com sucesso!")
 
     def _confirm(self):
         title = self.title_entry.get().strip()
@@ -236,7 +221,7 @@ class _CourseDialog(ctk.CTkToplevel):
         self.title(title)
         self.geometry("380x260")
         self.resizable(False, False)
-        self.grab_set()
+        #self.grab_set()
 
         ctk.CTkLabel(self, text="Course name", font=("Segoe UI", 12, "bold")).pack(
             anchor="w", padx=20, pady=(20, 6)

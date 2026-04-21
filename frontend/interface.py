@@ -17,19 +17,18 @@ from frontend.telas import (
 ctk.set_default_color_theme("blue")
 
 
-class App(ctk.CTk):
-    def __init__(self):
+class App(ctk.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master)
+
         self.controller = AppController(self)
         ctk.set_appearance_mode(self.controller.state.theme)
 
-        super().__init__()
-        self.title("Organizador de Trabalho")
-        self.geometry("1240x760")
-        self.minsize(1100, 680)
+        # 🔥 CORREÇÃO: remove coisas de janela
         self.configure(fg_color="#04070f")
 
-        self.grid_columnconfigure(0, weight=0)  # Sidebar NÃO expande
-        self.grid_columnconfigure(1, weight=1)  # Conteúdo expande
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
         self.sidebar = Sidebar(self, controller=self.controller)
@@ -46,7 +45,7 @@ class App(ctk.CTk):
     def _build_screens(self) -> None:
         screens = {
             "dashboard": DashboardScreen(self.container, self.controller),
-            "tasks": lambda: TasksPage(self.container, self.controller),
+            "tasks": TasksPage(self.container, self.controller),
             "agenda": AgendaScreen(self.container, self.controller),
             "notes": NotesScreen(self.container, self.controller),
             "focus": FocusScreen(self.container, self.controller),
