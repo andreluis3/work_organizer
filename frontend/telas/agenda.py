@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import calendar
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import customtkinter as ctk
 
 from core.agenda_manager import AgendaManager, Event
@@ -138,7 +138,7 @@ class AgendaScreen(BaseScreen):
                 for idx, event in enumerate(events[:3], start=1):
                     evt = ctk.CTkLabel(
                         card,
-                        text=event.title,
+                        text=self._event_title_preview(event.title),
                         fg_color=event.color,
                         text_color="#0b0f16",
                         corner_radius=8,
@@ -208,7 +208,7 @@ class AgendaScreen(BaseScreen):
                 for idx, event in enumerate(events_index.get((day, hour), [])[:2]):
                     evt = ctk.CTkLabel(
                         cell,
-                        text=f"{event.start.strftime('%H:%M')} {event.title}",
+                        text=f"{event.start.strftime('%H:%M')} {self._event_title_preview(event.title)}",
                         fg_color=event.color,
                         text_color="#0b0f16",
                         corner_radius=8,
@@ -262,46 +262,178 @@ class AgendaScreen(BaseScreen):
 
     def _open_add_event(self, selected_day: date, default_time: str = "09:00") -> None:
         modal = ctk.CTkToplevel(self)
-        modal.title(f"Novo Evento - {selected_day.strftime('%d/%m/%Y')}")
-        modal.geometry("420x520")
+        modal.title(f"Eventos - {selected_day.strftime('%d/%m/%Y')}")
+        modal.geometry("500x650")
+        modal.minsize(460, 560)
+        modal.transient(self.winfo_toplevel())
         modal.grab_set()
         modal.grid_columnconfigure(0, weight=1)
+        modal.grid_rowconfigure(0, weight=1)
 
-        ctk.CTkLabel(modal, text="Título").grid(row=0, column=0, sticky="w", padx=16, pady=(16, 4))
-        title_entry = ctk.CTkEntry(modal)
-        title_entry.grid(row=1, column=0, sticky="ew", padx=16)
+        frame = ctk.CTkScrollableFrame(
+            modal,
+            fg_color="#0b1220",
+            scrollbar_button_color="#1F2937",
+            scrollbar_button_hover_color="#334155",
+        )
+        frame.grid(row=0, column=0, sticky="nsew", padx=14, pady=14)
+        frame.grid_columnconfigure(0, weight=1)
 
-        ctk.CTkLabel(modal, text="Hora início (HH:MM)").grid(row=2, column=0, sticky="w", padx=16, pady=(10, 4))
-        start_entry = ctk.CTkEntry(modal)
+        header = ctk.CTkFrame(frame, fg_color="transparent")
+        header.grid(row=0, column=0, sticky="ew", padx=4, pady=(4, 12))
+        header.grid_columnconfigure(0, weight=1)
+
+        ctk.CTkLabel(
+            header,
+            text=selected_day.strftime("%d/%m/%Y"),
+            font=("Segoe UI", 22, "bold"),
+            text_color="#f8fbff",
+            anchor="w",
+        ).grid(row=0, column=0, sticky="w")
+
+        ctk.CTkButton(
+            header,
+            text="Fechar",
+            width=78,
+            fg_color="#1f2937",
+            hover_color="#334155",
+            command=modal.destroy,
+        ).grid(row=0, column=1, sticky="e")
+
+        ctk.CTkLabel(
+            frame,
+            text="Eventos do dia",
+            font=("Segoe UI", 15, "bold"),
+            text_color="#d7e3f6",
+            anchor="w",
+        ).grid(row=1, column=0, sticky="ew", padx=4, pady=(0, 8))
+
+        events_frame = ctk.CTkFrame(frame, fg_color="transparent")
+        events_frame.grid(row=2, column=0, sticky="ew", padx=4, pady=(0, 14))
+        events_frame.grid_columnconfigure(0, weight=1)
+
+        form = ctk.CTkFrame(frame, fg_color="#111b2f", corner_radius=12, border_width=1, border_color="#203250")
+        form.grid(row=3, column=0, sticky="ew", padx=4, pady=(0, 4))
+        form.grid_columnconfigure(0, weight=1)
+        form.grid_columnconfigure(1, weight=1)
+
+        ctk.CTkLabel(
+            form,
+            text="Novo evento",
+            font=("Segoe UI", 16, "bold"),
+            text_color="#f8fbff",
+            anchor="w",
+        ).grid(row=0, column=0, columnspan=2, sticky="ew", padx=16, pady=(16, 10))
+
+        ctk.CTkLabel(form, text="Título", text_color="#9fb0cc").grid(
+            row=1, column=0, columnspan=2, sticky="w", padx=16, pady=(0, 4)
+        )
+        title_entry = ctk.CTkEntry(form, height=38)
+        title_entry.grid(row=2, column=0, columnspan=2, sticky="ew", padx=16)
+
+        ctk.CTkLabel(form, text="Hora início (HH:MM)", text_color="#9fb0cc").grid(
+            row=3, column=0, sticky="w", padx=16, pady=(12, 4)
+        )
+        start_entry = ctk.CTkEntry(form, height=38)
         start_entry.insert(0, default_time)
-        start_entry.grid(row=3, column=0, sticky="ew", padx=16)
+        start_entry.grid(row=4, column=0, sticky="ew", padx=(16, 8))
 
-        ctk.CTkLabel(modal, text="Hora fim (HH:MM)").grid(row=4, column=0, sticky="w", padx=16, pady=(10, 4))
-        end_entry = ctk.CTkEntry(modal)
-        end_entry.insert(0, "10:00")
-        end_entry.grid(row=5, column=0, sticky="ew", padx=16)
+        ctk.CTkLabel(form, text="Hora fim (HH:MM)", text_color="#9fb0cc").grid(
+            row=3, column=1, sticky="w", padx=8, pady=(12, 4)
+        )
+        end_entry = ctk.CTkEntry(form, height=38)
+        end_entry.insert(0, self._default_end_time(default_time))
+        end_entry.grid(row=4, column=1, sticky="ew", padx=(8, 16))
 
-        ctk.CTkLabel(modal, text="Prioridade").grid(row=6, column=0, sticky="w", padx=16, pady=(10, 4))
-        priority_box = ctk.CTkComboBox(modal, values=self.PRIORITIES)
+        ctk.CTkLabel(form, text="Prioridade", text_color="#9fb0cc").grid(
+            row=5, column=0, sticky="w", padx=16, pady=(12, 4)
+        )
+        priority_box = ctk.CTkComboBox(form, values=self.PRIORITIES, height=38)
         priority_box.set("Média")
-        priority_box.grid(row=7, column=0, sticky="ew", padx=16)
+        priority_box.grid(row=6, column=0, sticky="ew", padx=(16, 8))
 
-        ctk.CTkLabel(modal, text="Categoria").grid(row=8, column=0, sticky="w", padx=16, pady=(10, 4))
-        category_entry = ctk.CTkEntry(modal)
+        ctk.CTkLabel(form, text="Categoria", text_color="#9fb0cc").grid(
+            row=5, column=1, sticky="w", padx=8, pady=(12, 4)
+        )
+        category_entry = ctk.CTkEntry(form, height=38)
         category_entry.insert(0, "Trabalho")
-        category_entry.grid(row=9, column=0, sticky="ew", padx=16)
+        category_entry.grid(row=6, column=1, sticky="ew", padx=(8, 16))
 
-        ctk.CTkLabel(modal, text="Descrição").grid(row=10, column=0, sticky="w", padx=16, pady=(10, 4))
-        description_box = ctk.CTkTextbox(modal, height=90)
-        description_box.grid(row=11, column=0, sticky="ew", padx=16)
+        ctk.CTkLabel(form, text="Descrição", text_color="#9fb0cc").grid(
+            row=7, column=0, columnspan=2, sticky="w", padx=16, pady=(12, 4)
+        )
+        description_box = ctk.CTkTextbox(form, height=100, fg_color="#0d1526", border_width=1, border_color="#263449")
+        description_box.grid(row=8, column=0, columnspan=2, sticky="ew", padx=16)
 
-        status = ctk.CTkLabel(modal, text="", text_color="#ff6b6b")
-        status.grid(row=12, column=0, sticky="w", padx=16, pady=(8, 4))
+        status = ctk.CTkLabel(form, text="", text_color="#ff6b6b", anchor="w")
+        status.grid(row=9, column=0, columnspan=2, sticky="ew", padx=16, pady=(10, 4))
+
+        def render_day_events() -> None:
+            for child in events_frame.winfo_children():
+                child.destroy()
+
+            events = self.agenda.get_events_day(selected_day)
+            if not events:
+                ctk.CTkLabel(
+                    events_frame,
+                    text="Nenhum evento cadastrado para este dia.",
+                    text_color="#8ea2c2",
+                    font=("Segoe UI", 12),
+                    anchor="w",
+                ).grid(row=0, column=0, sticky="ew", padx=2, pady=4)
+                return
+
+            for row, event in enumerate(events):
+                item = ctk.CTkFrame(
+                    events_frame,
+                    fg_color="#111b2f",
+                    corner_radius=10,
+                    border_width=1,
+                    border_color="#203250",
+                )
+                item.grid(row=row, column=0, sticky="ew", pady=4)
+                item.grid_columnconfigure(1, weight=1)
+
+                ctk.CTkLabel(
+                    item,
+                    text=self._event_time_label(event),
+                    text_color="#38bdf8",
+                    font=("Segoe UI", 12, "bold"),
+                    width=98,
+                    anchor="w",
+                ).grid(row=0, column=0, sticky="w", padx=(10, 6), pady=8)
+
+                ctk.CTkLabel(
+                    item,
+                    text=self._event_title_preview(event.title),
+                    text_color="#f8fbff",
+                    font=("Segoe UI", 12, "bold"),
+                    anchor="w",
+                ).grid(row=0, column=1, sticky="ew", padx=4, pady=8)
+
+                ctk.CTkButton(
+                    item,
+                    text="Excluir",
+                    width=72,
+                    height=28,
+                    fg_color="#7f1d1d",
+                    hover_color="#991b1b",
+                    text_color="#fee2e2",
+                    command=lambda event_id=event.id: remove_event(event_id),
+                ).grid(row=0, column=2, sticky="e", padx=(6, 10), pady=8)
+
+        def remove_event(event_id: int | None) -> None:
+            if event_id is None:
+                return
+            self.agenda.remove_event(event_id)
+            render_day_events()
+            self._refresh_all()
+            self._show_toast("Evento removido.", level="success")
 
         def save_event() -> None:
             title = title_entry.get().strip() or "Evento"
             category = category_entry.get().strip() or "Geral"
-            priority = priority_box.get().strip()
+            priority = priority_box.get().strip() or "Média"
             description = description_box.get("1.0", "end").strip()
 
             try:
@@ -309,6 +441,10 @@ class AgendaScreen(BaseScreen):
                 end_dt = self.agenda.build_datetime(selected_day, end_entry.get().strip())
             except ValueError:
                 status.configure(text="Use horário no formato HH:MM.")
+                return
+
+            if end_dt <= start_dt:
+                status.configure(text="A hora final deve ser maior que a inicial.")
                 return
 
             try:
@@ -320,6 +456,7 @@ class AgendaScreen(BaseScreen):
                         priority=priority,
                         category=category,
                         description=description,
+                        color=self._priority_color(priority),
                     )
                 )
             except ValueError as exc:
@@ -328,11 +465,51 @@ class AgendaScreen(BaseScreen):
 
             modal.destroy()
             self._refresh_all()
-            if hasattr(self.controller, "toast"):
-                self.controller.toast("Evento salvo na agenda.", level="success")
+            self._show_toast("Evento salvo na agenda.", level="success")
 
-        save_btn = ctk.CTkButton(modal, text="Salvar Evento", command=save_event)
-        save_btn.grid(row=13, column=0, sticky="ew", padx=16, pady=(8, 16))
+        save_btn = ctk.CTkButton(
+            form,
+            text="Salvar Evento",
+            height=40,
+            fg_color="#22c55e",
+            hover_color="#16a34a",
+            text_color="#03130b",
+            command=save_event,
+        )
+        save_btn.grid(row=10, column=0, columnspan=2, sticky="ew", padx=16, pady=(8, 16))
+
+        render_day_events()
+        title_entry.focus()
+
+    def _show_toast(self, message: str, level: str = "info") -> None:
+        if hasattr(self.controller, "toast"):
+            self.controller.toast(message, level=level)
+
+    @staticmethod
+    def _event_title_preview(title: str, limit: int = 20) -> str:
+        clean = str(title or "Evento").strip()
+        return clean if len(clean) <= limit else f"{clean[:limit - 1]}…"
+
+    @staticmethod
+    def _event_time_label(event: Event) -> str:
+        return f"[{event.start.strftime('%H:%M')} - {event.end.strftime('%H:%M')}]"
+
+    @staticmethod
+    def _default_end_time(start_time: str) -> str:
+        try:
+            base = datetime.strptime(start_time.strip(), "%H:%M")
+        except ValueError:
+            return "10:00"
+        return (base + timedelta(hours=1)).strftime("%H:%M")
+
+    @staticmethod
+    def _priority_color(priority: str) -> str:
+        colors = {
+            "Alta": "#F87171",
+            "Média": "#FACC15",
+            "Baixa": "#38BDF8",
+        }
+        return colors.get(priority, "#38BDF8")
 
     @staticmethod
     def _bind_hover(widget: ctk.CTkBaseClass, base_color: str) -> None:

@@ -1,4 +1,4 @@
-from backend.database.conexao import *
+from backend.database.conexao import conectar
 
 def criar_tabelas():
     conn = conectar()

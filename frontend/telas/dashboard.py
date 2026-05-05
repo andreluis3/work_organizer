@@ -383,7 +383,7 @@ class DashboardDataProvider:
             tasks = []
 
         if tasks:
-            completed = sum(1 for task in tasks if task.get("status") == "done")
+            completed = sum(1 for task in tasks if task.get("status") in ("done", "concluida"))
             total = len(tasks)
             return f"{int((completed / total) * 100) if total else 0}%"
 
