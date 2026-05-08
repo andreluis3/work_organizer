@@ -261,7 +261,18 @@ class _TaskDialog(ctk.CTkToplevel):
         self.title(title)
         self.geometry("420x430")
         self.resizable(False, False)
-        #self.grab_set()
+        self.transient(master.winfo_toplevel())
+
+        self.update_idletasks()
+
+        self.after(
+            50,
+            lambda: (
+                self.lift(),
+                self.focus_force(),
+                self.grab_set(),
+            ),
+        )
 
         ctk.CTkLabel(self, text="Title", font=("Segoe UI", 12, "bold")).pack(anchor="w", padx=20, pady=(20, 6))
         self.title_entry = ctk.CTkEntry(self)
@@ -307,7 +318,10 @@ class _CourseDialog(ctk.CTkToplevel):
         self.title(title)
         self.geometry("380x260")
         self.resizable(False, False)
-        #self.grab_set()
+        self.transient(master.winfo_toplevel())
+        self.grab_set()
+        self.focus_force()
+        self.after(100, lambda: self.lift())
 
         ctk.CTkLabel(self, text="Course name", font=("Segoe UI", 12, "bold")).pack(
             anchor="w", padx=20, pady=(20, 6)

@@ -266,7 +266,20 @@ class AgendaScreen(BaseScreen):
         modal.geometry("500x650")
         modal.minsize(460, 560)
         modal.transient(self.winfo_toplevel())
-        modal.grab_set()
+
+        # Centralizar a janela na tela
+        modal.update_idletasks()
+        width = modal.winfo_width()
+        height = modal.winfo_height()
+        screen_width = modal.winfo_screenwidth()
+        screen_height = modal.winfo_screenheight()
+        x = (screen_width // 2) - (width // 2)
+        y = (screen_height // 2) - (height // 2)
+        modal.geometry(f"{width}x{height}+{x}+{y}")
+
+        modal.attributes("-topmost", True)
+        modal.focus_set()
+
         modal.grid_columnconfigure(0, weight=1)
         modal.grid_rowconfigure(0, weight=1)
 
