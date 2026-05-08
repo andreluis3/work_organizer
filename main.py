@@ -30,7 +30,7 @@ class MainApplication(ctk.CTk):
     def _start_app(self):
         self.loading.destroy()
 
-        self.app = App(self)  # App agora precisa ser CTkFrame
+        self.app = App(self) 
         self.app.pack(fill="both", expand=True)
         self.title("Organizador de Trabalho")
         self.geometry("1240x760")

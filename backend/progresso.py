@@ -1,17 +1,17 @@
-# core/progresso.py
-from database.conexao import conectar
+from backend.database.conexao import conectar
 
 def produtividade_por_dia(data):
     conn = conectar()
-    cursor = conn.cursor()
+    try:
+        cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT SUM(duracao_min) AS total
-        FROM pomodoro
-        WHERE DATE(inicio) = DATE(?)
-    """, (data,))
+        cursor.execute("""
+            SELECT COALESCE(SUM(duracao_min), 0) AS total
+            FROM pomodoro
+            WHERE DATE(inicio) = DATE(?)
+        """, (data,))
 
-    resultado = cursor.fetchone()
-    conn.close()
-
-    return resultado["total"] or 0
+        resultado = cursor.fetchone()
+        return int(resultado["total"] or 0) if resultado else 0
+    finally:
+        conn.close()

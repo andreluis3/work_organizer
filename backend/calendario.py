@@ -1,11 +1,13 @@
-from dataclasses import dataclass
-from datetime import date, datetime, timedelta
-import customtkinter as ctk
 import calendar
-
+import logging
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from typing import List
+
+import customtkinter as ctk
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -145,7 +147,7 @@ class Agenda(ctk.CTkFrame):
 
     def _open_add_event(self, day):
         # Aqui você criaria um ctk.CTkToplevel para o formulário
-        print(f"Abrindo formulário para o dia {day}")
+        logger.info("Abrindo formulario para o dia %s", day)
 
     def _build_header(self):
         header = ctk.CTkFrame(self)
