@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
+
 from backend.services.task_service import TaskService
 
+DATETIME_FMT = "%Y-%m-%d %H:%M:%S"
 
 class TaskController:
     def __init__(self, service=None):
@@ -36,3 +39,18 @@ class TaskController:
 
     def get_history_items(self):
         return self.service.get_history_items()
+    
+    def clean_old_tasks(self, hours: int = 48) -> int:
+        """Move tasks concluídas há mais de `hours` horas para o histórico."""
+        cutoff = (datetime.now() - timedelta(hours=hours)).strftime(DATETIME_FMT)
+        return self.service.move_completed_to_history(cutoff)
+
+    def get_stagnant_tasks(self, days: int = 7) -> list[dict]:
+        """Tasks não concluídas sem atualização há mais de `days` dias."""
+        cutoff = (datetime.now() - timedelta(days=days)).strftime(DATETIME_FMT)
+        return self.service.get_stagnant_tasks(cutoff)
+
+    def get_task(self, task_id: int) -> dict | None:
+        return self.service.get_task(task_id)
+    
+    

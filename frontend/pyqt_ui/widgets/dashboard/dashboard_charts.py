@@ -6,7 +6,6 @@ Widget burro: recebe listas já prontas via ChartsViewData e apenas desenha.
 """
 
 from __future__ import annotations
-from frontend.pyqt_ui.pages.dashboard_page import DashboardPage
 from PyQt6.QtCharts import (
     QBarCategoryAxis,
     QBarSeries,

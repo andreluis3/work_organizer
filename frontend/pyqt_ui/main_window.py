@@ -441,6 +441,112 @@ class MainWindow(QMainWindow):
                 font-size: 20px;
             }
         
+        
+        /* --- Tasks: seções e histórico --- */
+            QLabel#sectionHeader {
+                color: #F8FBFF;
+                font-size: 15px;
+                font-weight: 700;
+            }
+            QLabel#sectionEmptyHint {
+                color: #6F819F;
+                font-size: 12px;
+                padding: 8px 0;
+            }
+            QFrame#taskCard {
+                background-color: #111827;
+                border: 1px solid #263449;
+                border-radius: 10px;
+            }
+            QFrame#taskCard:hover {
+                background-color: #1F2937;
+            }
+            QLabel#taskTitle {
+                color: #F8FBFF;
+                font-size: 15px;
+                font-weight: 700;
+            }
+            QLabel#taskTitle[done="true"] {
+                color: #7C8798;
+                text-decoration: line-through;
+            }
+            QLineEdit#taskTitleInput {
+                background-color: #0D1526;
+                border: 1px solid #263449;
+                border-radius: 6px;
+                padding: 4px 8px;
+                color: #F8FBFF;
+                font-size: 15px;
+                font-weight: 700;
+            }
+            QLabel#taskCreatedAt {
+                color: #6F819F;
+                font-size: 11px;
+            }
+            QProgressBar#taskProgressBar {
+                background-color: #1E293B;
+                border: none;
+                border-radius: 4px;
+            }
+            QProgressBar#taskProgressBar::chunk {
+                background-color: #38BDF8;
+                border-radius: 4px;
+            }
+            QCheckBox#subtaskCheckbox {
+                color: #C5D2E8;
+                font-size: 12px;
+            }
+            QLabel#courseProgressLabel {
+                color: #9CB0CF;
+                font-size: 12px;
+            }
+            QLabel#courseLessonCaption {
+                color: #9CB0CF;
+                font-size: 12px;
+            }
+            QLineEdit#courseLessonInput {
+                background-color: #0D1526;
+                border: 1px solid #263449;
+                border-radius: 6px;
+                padding: 4px 8px;
+                color: #F8FBFF;
+            }
+            QFrame#historyRow {
+                background-color: #111827;
+                border: 1px solid #263449;
+                border-radius: 8px;
+            }
+            QLabel#historyRowTitle {
+                color: #F8FBFF;
+                font-size: 13px;
+                font-weight: 700;
+            }
+            QLabel#historyRowDate {
+                color: #9CB0CF;
+                font-size: 11px;
+            }
+            
+            /* --- Tasks: filtros --- */
+            QLabel#filterLabel {
+                color: #9CB0CF;
+                font-size: 12px;
+                font-weight: 600;
+            }
+            QComboBox {
+                background-color: #0D1526;
+                border: 1px solid #263449;
+                border-radius: 6px;
+                padding: 6px 10px;
+                color: #F8FBFF;
+            }
+            QScrollArea#sectionScroll {
+                background: transparent;
+                border: none;
+            }
+            QSplitter::handle {
+                background-color: #262626;
+                width: 2px;
+            }
             
             """
             

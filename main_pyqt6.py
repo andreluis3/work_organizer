@@ -19,7 +19,7 @@ from frontend.pyqt_ui.main_window import MainWindow
 from frontend.pyqt_ui.pages.agenda_page import AgendaPage
 from frontend.pyqt_ui.pages.base_page import BasePage
 from frontend.pyqt_ui.pages.dashboard_page import DashboardPage
-
+from frontend.pyqt_ui.pages.tasks_page import TasksPage
 # Páginas ainda não migradas ganham um placeholder — evita tela em branco
 # e permite validar a navegação enquanto migramos uma por vez.
 PLACEHOLDER_PAGES = [
@@ -49,6 +49,7 @@ def _register_pages(window: MainWindow) -> None:
 
     window.register_page("agenda", "Agenda", AgendaPage())
     window.register_page("dashboard", "Dashboard", DashboardPage())
+    window.register_page("tasks", "Tasks", TasksPage())
 
 
 def main() -> int:
