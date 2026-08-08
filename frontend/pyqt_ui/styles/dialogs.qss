@@ -1,0 +1,37 @@
+QDialog {
+    background-color: #111111;
+}
+QLabel#dialogTitle {
+    color: #F8FBFF;
+    font-size: 20px;
+    font-weight: 700;
+}
+QLabel#sectionLabel {
+    color: #D7E3F6;
+    font-size: 14px;
+    font-weight: 600;
+}
+QFrame#formFrame {
+    background-color: #1A1A1A;
+    border: 1px solid #262626;
+    border-radius: 10px;
+}
+QFrame#eventRow {
+    background-color: #1A1A1A;
+    border: 1px solid #262626;
+    border-radius: 8px;
+}
+QLabel#eventTime {
+    color: #38BDF8;
+    font-weight: 600;
+}
+QLabel#eventTitle {
+    color: #F8FBFF;
+    font-weight: 600;
+}
+QLabel#emptyHint {
+    color: #8EA2C2;
+}
+QLabel#dialogStatus {
+    color: #FF6B6B;
+}

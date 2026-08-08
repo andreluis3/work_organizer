@@ -1,0 +1,80 @@
+QFrame#notesSidebar {
+    background-color: #0B1220;
+    border: 1px solid #1F2937;
+    border-radius: 16px;
+}
+QLabel#notesSidebarTitle {
+    color: #F8FBFF;
+    font-size: 18px;
+    font-weight: 700;
+}
+QFrame#noteRow {
+    background-color: #111827;
+    border-radius: 8px;
+}
+QFrame#noteRow:hover {
+    background-color: #172036;
+}
+QFrame#noteRow[active="true"] {
+    background-color: #172036;
+    border: 1px solid #38BDF8;
+}
+QLabel#noteRowTitle {
+    color: #F8FBFF;
+    font-size: 13px;
+    font-weight: 700;
+}
+QLabel#noteRowDate {
+    color: #8A96AC;
+    font-size: 10px;
+}
+QPushButton#pinButton {
+    background: transparent;
+    border: none;
+    color: #FACC15;
+    font-size: 14px;
+}
+QLineEdit#noteTitleInput {
+    background-color: #111827;
+    border: 1px solid #263449;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #F8FBFF;
+    font-size: 18px;
+    font-weight: 700;
+}
+QTextEdit#notesEditor {
+    background-color: #0D1117;
+    border: 1px solid #263449;
+    border-radius: 14px;
+    padding: 14px;
+    color: #E6EDF3;
+}
+QFrame#slashMenu {
+    background-color: #111827;
+    border: 1px solid #263449;
+    border-radius: 8px;
+}
+QListWidget#slashMenuList {
+    background: transparent;
+    border: none;
+    color: #F8FBFF;
+    font-size: 13px;
+}
+QListWidget#slashMenuList::item:selected {
+    background-color: #263449;
+    border-radius: 6px;
+}
+QLabel#notesTagsLabel {
+    color: #22C55E;
+    font-size: 12px;
+    font-weight: 600;
+}
+QLabel#notesInsightLabel {
+    color: #38BDF8;
+    font-size: 12px;
+}
+QLabel#notesStatusLabel {
+    color: #94A3B8;
+    font-size: 12px;
+}

@@ -1,11 +1,7 @@
 # frontend/pyqt_ui/pages/tasks_page.py
 """
-Página de Tasks: header com ações, filtros, hero de resumo, seções de
-tasks (em andamento/concluídas), cursos e histórico.
-
-Orquestra o TasksViewModel e os widgets — nenhuma regra de negócio aqui.
-Atualizações de clique (toggle, status, subtask, progresso de curso) só
-tocam o widget afetado, nunca reconstroem a tela inteira.
+Página de Tasks: hero de resumo, busca+filtros, 3 colunas Kanban
+(Pendente/Pausada/Concluída), seção de Cursos e Histórico abaixo.
 """
 
 from __future__ import annotations
@@ -14,8 +10,8 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
     QPushButton,
-    QSplitter,
     QVBoxLayout,
     QWidget,
 )
@@ -24,7 +20,6 @@ from frontend.pyqt_ui.dialogs.new_course_dialog import NewCourseDialog
 from frontend.pyqt_ui.dialogs.new_task_dialog import NewTaskDialog
 from frontend.pyqt_ui.pages.base_page import BasePage
 from frontend.pyqt_ui.viewmodels.tasks_viewmodel import (
-    FILTER_OPTIONS,
     SORT_OPTIONS,
     CourseCardData,
     TaskChangeEvent,
@@ -32,8 +27,8 @@ from frontend.pyqt_ui.viewmodels.tasks_viewmodel import (
 )
 from frontend.pyqt_ui.widgets.tasks.course_card import CourseCard
 from frontend.pyqt_ui.widgets.tasks.history_section import HistorySection
+from frontend.pyqt_ui.widgets.tasks.kanban_column import KanbanColumn
 from frontend.pyqt_ui.widgets.tasks.task_card import TaskCard
-from frontend.pyqt_ui.widgets.tasks.task_section import TaskSection
 from frontend.pyqt_ui.widgets.tasks.tasks_summary import TasksSummaryWidget
 
 
@@ -58,73 +53,72 @@ class TasksPage(BasePage):
         self.summary_widget = TasksSummaryWidget()
         self.add_content_widget(self.summary_widget)
 
-        actions_row = QHBoxLayout()
+        toolbar_row = QHBoxLayout()
 
-        filter_label = QLabel("Status")
-        filter_label.setObjectName("filterLabel")
-        actions_row.addWidget(filter_label)
-
-        self.filter_combo = QComboBox()
-        self.filter_combo.addItems(list(FILTER_OPTIONS.keys()))
-        self.filter_combo.setCurrentText("Todos")
-        self.filter_combo.currentTextChanged.connect(self.viewmodel.set_status_filter)
-        actions_row.addWidget(self.filter_combo)
+        self.search_input = QLineEdit()
+        self.search_input.setObjectName("searchInput")
+        self.search_input.setPlaceholderText("Buscar por titulo...")
+        self.search_input.textChanged.connect(self._on_search_changed)
+        toolbar_row.addWidget(self.search_input, stretch=1)
 
         sort_label = QLabel("Ordenar")
         sort_label.setObjectName("filterLabel")
-        actions_row.addWidget(sort_label)
+        toolbar_row.addWidget(sort_label)
 
         self.sort_combo = QComboBox()
         self.sort_combo.addItems(list(SORT_OPTIONS.keys()))
         self.sort_combo.setCurrentText("Prioridade")
         self.sort_combo.currentTextChanged.connect(self.viewmodel.set_sort_option)
-        actions_row.addWidget(self.sort_combo)
-
-        actions_row.addStretch(1)
+        toolbar_row.addWidget(self.sort_combo)
 
         new_task_btn = QPushButton("+ Nova Task")
         new_task_btn.setObjectName("primaryButton")
         new_task_btn.clicked.connect(self._open_new_task_dialog)
-        actions_row.addWidget(new_task_btn)
+        toolbar_row.addWidget(new_task_btn)
 
         new_course_btn = QPushButton("+ Novo Curso")
         new_course_btn.clicked.connect(self._open_new_course_dialog)
-        actions_row.addWidget(new_course_btn)
+        toolbar_row.addWidget(new_course_btn)
 
-        actions_container = QWidget()
-        actions_container.setLayout(actions_row)
-        self.add_content_widget(actions_container)
+        toolbar_container = QWidget()
+        toolbar_container.setLayout(toolbar_row)
+        self.add_content_widget(toolbar_container)
 
-        splitter = QSplitter()
+        # --- Kanban: 3 colunas lado a lado ---
+        kanban_row = QHBoxLayout()
+        kanban_row.setSpacing(14)
 
-        left_column = QWidget()
-        left_layout = QVBoxLayout(left_column)
-        left_layout.setContentsMargins(0, 0, 0, 0)
-        left_layout.setSpacing(16)
+        self.pending_column = KanbanColumn("Pendente", "Nenhuma task pendente.")
+        self.paused_column = KanbanColumn("Pausada", "Nenhuma task pausada.")
+        self.done_column = KanbanColumn("Concluida", "Nenhuma task concluida ainda.")
 
-        self.in_progress_section = TaskSection("Em andamento", "Nenhuma task em andamento.")
-        left_layout.addWidget(self.in_progress_section, stretch=1)
+        kanban_row.addWidget(self.pending_column, stretch=1)
+        kanban_row.addWidget(self.paused_column, stretch=1)
+        kanban_row.addWidget(self.done_column, stretch=1)
 
-        self.done_section = TaskSection("Concluidas", "Nenhuma task concluida ainda.")
-        left_layout.addWidget(self.done_section, stretch=1)
+        kanban_container = QWidget()
+        kanban_container.setLayout(kanban_row)
+        self.add_content_widget(kanban_container)
 
-        right_column = QWidget()
-        right_layout = QVBoxLayout(right_column)
-        right_layout.setContentsMargins(0, 0, 0, 0)
-        right_layout.setSpacing(16)
+        # --- Cursos + Histórico, lado a lado, abaixo do Kanban ---
+        bottom_row = QHBoxLayout()
+        bottom_row.setSpacing(14)
 
-        self.courses_section = TaskSection("Cursos", "Nenhum curso cadastrado.")
-        right_layout.addWidget(self.courses_section, stretch=1)
+        self.courses_column = KanbanColumn("Cursos", "Nenhum curso cadastrado.")
+        bottom_row.addWidget(self.courses_column, stretch=2)
 
         self.history_section = HistorySection()
-        right_layout.addWidget(self.history_section, stretch=1)
+        bottom_row.addWidget(self.history_section, stretch=1)
 
-        splitter.addWidget(left_column)
-        splitter.addWidget(right_column)
-        splitter.setStretchFactor(0, 2)
-        splitter.setStretchFactor(1, 1)
+        bottom_container = QWidget()
+        bottom_container.setLayout(bottom_row)
+        self.add_content_widget(bottom_container)
 
-        self.add_content_widget(splitter)
+        self._columns = {
+            "pendente": self.pending_column,
+            "pausada": self.paused_column,
+            "concluida": self.done_column,
+        }
 
     # ------------------------------------------------------------------
     # Ciclo de vida
@@ -135,22 +129,39 @@ class TasksPage(BasePage):
         self.viewmodel.refresh()
 
     # ------------------------------------------------------------------
-    # Carga completa (filtro/ordenação/carga inicial)
+    # Carga completa
     # ------------------------------------------------------------------
 
     def _on_loaded(self) -> None:
         self.summary_widget.update_data(self.viewmodel.summary)
 
-        self.in_progress_section.set_items(
-            [(data.id, self._build_task_card(data)) for data in self.viewmodel.tasks_in_progress]
-        )
-        self.done_section.set_items(
-            [(data.id, self._build_task_card(data)) for data in self.viewmodel.tasks_done]
-        )
-        self.courses_section.set_items(
-            [(data.id, self._build_course_card(data)) for data in self.viewmodel.courses]
+        all_tasks = self.viewmodel.tasks_in_progress + self.viewmodel.tasks_done
+        for status, column in self._columns.items():
+            items = [
+                (data.id, data.title, self._build_task_card(data))
+                for data in all_tasks
+                if data.status == status
+            ]
+            column.set_items(items)
+
+        self.courses_column.set_items(
+            [
+                (data.id, data.title, self._build_course_card(data))
+                for data in self.viewmodel.courses
+            ]
         )
         self.history_section.set_items(self.viewmodel.history)
+
+        if self.search_input.text():
+            self._on_search_changed(self.search_input.text())
+
+    # ------------------------------------------------------------------
+    # Busca (client-side, sem nova consulta ao banco)
+    # ------------------------------------------------------------------
+
+    def _on_search_changed(self, text: str) -> None:
+        for column in self._columns.values():
+            column.filter_by_title(text)
 
     # ------------------------------------------------------------------
     # Atualizações granulares
@@ -158,24 +169,31 @@ class TasksPage(BasePage):
 
     def _on_task_changed(self, event: TaskChangeEvent) -> None:
         data = event.data
+        target_column = self._columns.get(data.status)
 
-        if not event.section_changed:
-            widget = self.in_progress_section.get(data.id) or self.done_section.get(data.id)
-            if widget is not None:
-                widget.update_data(data)
+        current_column = None
+        for column in self._columns.values():
+            if column.get(data.id) is not None:
+                current_column = column
+                break
+
+        if current_column is target_column and current_column is not None:
+            widget = current_column.get(data.id)
+            widget.update_data(data)
             return
 
-        # mudou de seção: remove de onde estava, adiciona na nova
-        self.in_progress_section.remove(data.id)
-        self.done_section.remove(data.id)
-
-        target_section = self.done_section if data.is_done else self.in_progress_section
-        target_section.add(data.id, self._build_task_card(data))
+        if current_column is not None:
+            current_column.remove(data.id)
+        if target_column is not None:
+            target_column.add(data.id, data.title, self._build_task_card(data))
 
         self.summary_widget.update_data(self.viewmodel.summary)
 
+        if self.search_input.text():
+            self._on_search_changed(self.search_input.text())
+
     def _on_course_changed(self, data: CourseCardData) -> None:
-        widget = self.courses_section.get(data.id)
+        widget = self.courses_column.get(data.id)
         if widget is not None:
             widget.update_data(data)
 
@@ -183,7 +201,7 @@ class TasksPage(BasePage):
             self.summary_widget.update_data(self.viewmodel.summary)
 
     # ------------------------------------------------------------------
-    # Construção de cards (conecta sinais uma única vez, na criação)
+    # Construção de cards
     # ------------------------------------------------------------------
 
     def _build_task_card(self, data) -> TaskCard:
@@ -203,7 +221,7 @@ class TasksPage(BasePage):
         try:
             self.viewmodel.update_task_title(task_id, title)
         except ValueError:
-            pass  # título vazio já é bloqueado no próprio TaskCard antes de emitir
+            pass
 
     # ------------------------------------------------------------------
     # Diálogos
@@ -212,11 +230,7 @@ class TasksPage(BasePage):
     def _open_new_task_dialog(self) -> None:
         dialog = NewTaskDialog(parent=self)
         if dialog.exec():
-            self.viewmodel.create_task(
-                dialog.result_title,
-                dialog.result_subtasks,
-                dialog.result_priority,
-            )
+            self.viewmodel.create_task(dialog.result_title, dialog.result_subtasks, dialog.result_priority)
 
     def _open_new_course_dialog(self) -> None:
         dialog = NewCourseDialog(parent=self)

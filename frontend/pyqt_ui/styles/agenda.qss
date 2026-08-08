@@ -1,0 +1,72 @@
+QTabWidget::pane {
+    border: 1px solid #262626;
+    border-radius: 8px;
+    background-color: #1A1A1A;
+}
+QTabBar::tab {
+    background-color: #1A1A1A;
+    color: #9CB0CF;
+    padding: 8px 16px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+QTabBar::tab:selected {
+    background-color: #0078FF;
+    color: #FFFFFF;
+}
+QLabel#agendaCursorLabel {
+    color: #F8FBFF;
+    font-size: 18px;
+    font-weight: 700;
+}
+QLabel#agendaWeekdayHeader {
+    color: #9CB0CF;
+    font-size: 12px;
+    font-weight: 600;
+    qproperty-alignment: AlignCenter;
+    padding: 6px 0;
+}
+QLabel#agendaHourLabel {
+    color: #8CA0C0;
+    font-size: 11px;
+}
+QFrame#agendaHourCell {
+    background-color: #171717;
+    border: 1px solid #262626;
+    border-radius: 6px;
+}
+QFrame#agendaHourCell:hover {
+    background-color: #1F1F1F;
+}
+QFrame#dayCell, QFrame#dayCellOutside, QFrame#dayCellToday {
+    border-radius: 8px;
+    border: 1px solid #262626;
+}
+QFrame#dayCell {
+    background-color: #1A1A1A;
+}
+QFrame#dayCellOutside {
+    background-color: #141414;
+}
+QFrame#dayCellToday {
+    background-color: #17335C;
+    border: 1px solid #0078FF;
+}
+QLabel#dayCellNumber {
+    color: #F8FBFF;
+    font-weight: 600;
+}
+QLabel#dayCellNumberOutside {
+    color: #5A6478;
+    font-weight: 600;
+}
+QLabel#dayCellMore {
+    color: #8CA0C0;
+    font-size: 10px;
+}
+QLabel#eventPill {
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 600;
+}

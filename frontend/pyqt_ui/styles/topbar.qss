@@ -1,0 +1,13 @@
+QFrame#topbar {
+    background-color: #111111;
+    border-bottom: 1px solid #262626;
+}
+QLabel#topbarTitle {
+    color: #F8FBFF;
+    font-size: 15px;
+    font-weight: 600;
+}
+QLabel#topbarSubtitle {
+    color: #6F819F;
+    font-size: 12px;
+}

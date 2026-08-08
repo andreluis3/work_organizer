@@ -137,6 +137,15 @@ class TaskCard(QFrame):
             f"background-color: {data.status_color}; color: #FFFFFF; border-radius: 6px; font-weight: 600;"
         )
 
+        priority_key = {"Alta": "alta", "Media": "media", "Baixa": "baixa"}.get(data.priority_label, "baixa")
+        self.setProperty("priority", priority_key)
+        self._refresh_style(self)
+
+        self.priority_badge.setText(data.priority_label)
+        self.priority_badge.setStyleSheet(
+            f"background-color: {data.priority_color}; color: #0B1120; font-weight: 700;"
+        )
+
         self.created_at_label.setText(f"Criada em {data.created_at_label}")
 
         self._render_subtasks(data.subtasks)
