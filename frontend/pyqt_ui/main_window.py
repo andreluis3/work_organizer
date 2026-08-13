@@ -24,7 +24,7 @@ from frontend.app_state import AppState
 from frontend.config.settings import SettingsStore
 from frontend.pyqt_ui.widgets.sidebar import Sidebar
 from frontend.pyqt_ui.widgets.topbar import TopBar
-
+from frontend.pyqt_ui.styles.loader import load_stylesheet
 
 class MainWindow(QMainWindow):
     def __init__(
@@ -114,6 +114,5 @@ class MainWindow(QMainWindow):
     def _on_sidebar_collapsed_changed(self, collapsed: bool) -> None:
         self.app_state.sidebar_collapsed = collapsed
 
-    # ------------------------------------------------------------------
-    # Tema
-    # ------------------------------------------------------------------
+    def _apply_theme(self) -> None:
+        self.setStyleSheet(load_stylesheet())

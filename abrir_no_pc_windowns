@@ -1,0 +1,247 @@
+========================================================
+COMO RODAR O WORK ORGANIZER - PYTHON + PYQT6
+========================================================
+
+Este projeto utiliza um ambiente virtual Python (.venv).
+
+IMPORTANTE:
+Nunca executar o projeto usando o Python do Anaconda.
+
+O Python correto do projeto é:
+
+Python 3.13.7
+        |
+        ↓
+work_organizer/.venv/
+        |
+        ↓
+PyQt6 instalado dentro do ambiente virtual
+
+
+========================================================
+1 - ABRIR O TERMINAL NA PASTA DO PROJETO
+========================================================
+
+Primeiro entre na pasta do projeto:
+
+cd "C:\Users\André Luis\OneDrive\Ambiente de Trabalho\Documentos\work_organizer"
+
+
+========================================================
+2 - ATIVAR O AMBIENTE VIRTUAL (.venv)
+========================================================
+
+Sempre que fechar o VS Code ou abrir um novo terminal,
+o ambiente virtual precisa ser ativado novamente.
+
+Comando:
+
+.\.venv\Scripts\Activate.ps1
+
+
+Quando funcionar, o terminal deve mostrar:
+
+(.venv) PS C:\Users\André Luis\...\work_organizer>
+
+
+O símbolo (.venv) significa que o Python correto está ativo.
+
+
+========================================================
+3 - CONFERIR SE ESTÁ USANDO O PYTHON CORRETO
+========================================================
+
+Executar:
+
+python --version
+
+
+Resultado esperado:
+
+Python 3.13.7
+
+
+Depois:
+
+where.exe python
+
+
+O primeiro resultado deve ser:
+
+...\work_organizer\.venv\Scripts\python.exe
+
+
+NUNCA deve aparecer primeiro:
+
+C:\Users\André Luis\anaconda3\python.exe
+
+
+Caso apareça Anaconda, o ambiente virtual não está ativado.
+
+
+========================================================
+4 - INSTALAR DEPENDÊNCIAS DO PROJETO
+========================================================
+
+Caso seja a primeira execução ou tenha apagado o ambiente:
+
+Executar:
+
+python -m pip install -r requirements.txt
+
+
+O requirements.txt contém:
+
+- PyQt6
+- PyQt6 Charts
+- PyQt6 Qt6
+- PyQt6 sip
+
+
+IMPORTANTE:
+
+Sempre usar:
+
+python -m pip install
+
+
+Evitar:
+
+pip install
+
+
+Porque "pip" sozinho pode instalar no Python errado
+(Anaconda, Python global etc).
+
+
+========================================================
+5 - TESTAR O PYQT6
+========================================================
+
+Teste:
+
+python -c "from PyQt6.QtGui import QFont; print('QtGui funcionando!')"
+
+
+Resultado esperado:
+
+QtGui funcionando!
+
+
+Se aparecer erro:
+
+ImportError: DLL load failed while importing QtGui
+
+Verificar se está usando o .venv.
+
+
+========================================================
+6 - EXECUTAR O PROGRAMA
+========================================================
+
+Com o (.venv) ativo:
+
+Executar:
+
+python main_pyqt6.py
+
+
+Ou diretamente:
+
+.\.venv\Scripts\python.exe main_pyqt6.py
+
+
+========================================================
+7 - CONFIGURAR O VS CODE
+========================================================
+
+Quando abrir o VS Code:
+
+CTRL + SHIFT + P
+
+Selecionar:
+
+Python: Select Interpreter
+
+
+Escolher:
+
+work_organizer\.venv\Scripts\python.exe
+
+
+NÃO selecionar:
+
+Anaconda Python
+
+
+========================================================
+8 - ENTENDENDO O PROBLEMA QUE ACONTECEU
+========================================================
+
+O erro:
+
+ImportError: DLL load failed while importing QtGui
+
+
+acontecia porque o projeto estava sendo executado usando:
+
+C:\Users\André Luis\anaconda3\python.exe
+
+
+O PyQt6 estava instalado em outro ambiente:
+
+work_organizer\.venv
+
+
+Então o Python encontrava uma instalação errada
+e as DLLs do Qt não eram compatíveis.
+
+
+A solução foi:
+
+1. Criar/usar o .venv
+2. Ativar o .venv
+3. Instalar PyQt6 dentro dele
+4. Executar o projeto pelo Python do .venv
+
+
+========================================================
+RESUMO RÁPIDO DO DIA A DIA
+========================================================
+
+Sempre que abrir o projeto:
+
+1)
+
+cd "C:\Users\André Luis\OneDrive\Ambiente de Trabalho\Documentos\work_organizer"
+
+
+2)
+
+.\.venv\Scripts\Activate.ps1
+
+
+3)
+
+python main_pyqt6.py
+
+
+Pronto.
+
+
+========================================================
+REGRA DE OURO
+========================================================
+
+Cada projeto Python deve ter seu próprio ambiente virtual.
+
+Não misturar:
+
+Projeto A → .venv A → dependências A
+
+Projeto B → .venv B → dependências B
+
+Nunca instalar tudo no Python global ou Anaconda.
+
+
+========================================================

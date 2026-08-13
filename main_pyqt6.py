@@ -21,13 +21,12 @@ from frontend.pyqt_ui.pages.base_page import BasePage
 from frontend.pyqt_ui.pages.dashboard_page import DashboardPage
 from frontend.pyqt_ui.pages.tasks_page import TasksPage
 from frontend.pyqt_ui.pages.notes_page import NotesPage
-# Páginas ainda não migradas ganham um placeholder — evita tela em branco
-# e permite validar a navegação enquanto migramos uma por vez.
+from frontend.pyqt_ui.pages.focus_page import FocusPage
+
 PLACEHOLDER_PAGES = [
     ("focus", "Focus"),
     ("settings", "Configurações"),
 ]
-
 
 def _configure_app_style(app: QApplication) -> None:
     app.setStyle("Fusion")
@@ -50,6 +49,7 @@ def _register_pages(window: MainWindow) -> None:
     window.register_page("dashboard", "Dashboard", DashboardPage())
     window.register_page("tasks", "Tasks", TasksPage())
     window.register_page("notes", "Notes", NotesPage())
+    window.register_page("focus", "Focus Time", FocusPage())
 
 
 def main() -> int:

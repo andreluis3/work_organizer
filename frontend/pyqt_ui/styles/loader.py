@@ -20,6 +20,7 @@ STYLE_FILES = [
     "agenda.qss",
     "dialogs.qss",
     "notes.qss",
+    "focus.qss",
 ]
 
 
