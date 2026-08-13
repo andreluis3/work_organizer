@@ -6,6 +6,7 @@ Página de Tasks: hero de resumo, busca+filtros, 3 colunas Kanban
 
 from __future__ import annotations
 
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QComboBox,
     QHBoxLayout,
@@ -37,6 +38,11 @@ class TasksPage(BasePage):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
+        self.setObjectName("tasksPage")
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
+        self.title_label.setStyleSheet(
+            "font-size: 22px; font-weight: 700; color: #172033;"
+        )
 
         self.viewmodel = TasksViewModel()
         self.viewmodel.loaded.connect(self._on_loaded)
@@ -81,6 +87,7 @@ class TasksPage(BasePage):
         toolbar_row.addWidget(new_course_btn)
 
         toolbar_container = QWidget()
+        toolbar_container.setObjectName("tasksToolbar")
         toolbar_container.setLayout(toolbar_row)
         self.add_content_widget(toolbar_container)
 
@@ -97,8 +104,9 @@ class TasksPage(BasePage):
         kanban_row.addWidget(self.done_column, stretch=1)
 
         kanban_container = QWidget()
+        kanban_container.setObjectName("tasksKanban")
         kanban_container.setLayout(kanban_row)
-        self.add_content_widget(kanban_container)
+        self.content_layout.addWidget(kanban_container, stretch=5)
 
         # --- Cursos + Histórico, lado a lado, abaixo do Kanban ---
         bottom_row = QHBoxLayout()
@@ -111,8 +119,9 @@ class TasksPage(BasePage):
         bottom_row.addWidget(self.history_section, stretch=1)
 
         bottom_container = QWidget()
+        bottom_container.setObjectName("tasksBottom")
         bottom_container.setLayout(bottom_row)
-        self.add_content_widget(bottom_container)
+        self.content_layout.addWidget(bottom_container, stretch=1)
 
         self._columns = {
             "pendente": self.pending_column,

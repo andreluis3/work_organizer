@@ -9,6 +9,7 @@ especificamente — só organiza QWidgets. A busca por título filtra
 
 from __future__ import annotations
 
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFrame, QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
 
 
@@ -16,10 +17,11 @@ class KanbanColumn(QFrame):
     def __init__(self, title: str, empty_text: str = "Nada por aqui ainda.", parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("kanbanColumn")
+        self.setMinimumWidth(250)
 
         root = QVBoxLayout(self)
-        root.setContentsMargins(14, 14, 14, 14)
-        root.setSpacing(10)
+        root.setContentsMargins(12, 12, 12, 12)
+        root.setSpacing(8)
 
         header_row = QHBoxLayout()
         header_label = QLabel(title)
@@ -39,6 +41,7 @@ class KanbanColumn(QFrame):
         scroll = QScrollArea()
         scroll.setObjectName("sectionScroll")
         scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setFrameShape(QScrollArea.Shape.NoFrame)
 
         self._list_container = QWidget()

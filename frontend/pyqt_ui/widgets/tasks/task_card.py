@@ -51,8 +51,8 @@ class TaskCard(QFrame):
 
     def _build_ui(self) -> None:
         root = QVBoxLayout(self)
-        root.setContentsMargins(16, 14, 16, 14)
-        root.setSpacing(10)
+        root.setContentsMargins(14, 12, 14, 12)
+        root.setSpacing(8)
 
         top_row = QHBoxLayout()
         top_row.setSpacing(10)
@@ -67,6 +67,7 @@ class TaskCard(QFrame):
 
         self.title_label = QLabel()
         self.title_label.setObjectName("taskTitle")
+        self.title_label.setWordWrap(True)
         self.title_label.setCursor(Qt.CursorShape.IBeamCursor)
         self.title_label.mousePressEvent = self._start_inline_edit  # type: ignore[method-assign]
         self.title_stack.addWidget(self.title_label)
@@ -80,25 +81,31 @@ class TaskCard(QFrame):
         self.title_stack.setCurrentIndex(self.TITLE_PAGE)
         top_row.addWidget(self.title_stack, stretch=1)
 
+        root.addLayout(top_row)
+
+        meta_row = QHBoxLayout()
+        meta_row.setContentsMargins(34, 0, 0, 0)
+        meta_row.setSpacing(8)
+
         self.priority_badge = QLabel()
         self.priority_badge.setObjectName("priorityBadge")
         self.priority_badge.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.priority_badge.setFixedWidth(64)
-        top_row.addWidget(self.priority_badge)
+        self.priority_badge.setFixedSize(60, 24)
+        meta_row.addWidget(self.priority_badge)
 
         self.status_button = QPushButton()
         self.status_button.setObjectName("statusButton")
-        self.status_button.setFixedWidth(100)
+        self.status_button.setFixedSize(92, 26)
         self.status_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.status_button.clicked.connect(lambda: self.status_cycled.emit(self.data.id))
-        top_row.addWidget(self.status_button)
-
-        root.addLayout(top_row)
+        meta_row.addWidget(self.status_button)
+        meta_row.addStretch(1)
+        root.addLayout(meta_row)
 
         self.subtasks_container = QWidget()
         self.subtasks_layout = QVBoxLayout(self.subtasks_container)
         self.subtasks_layout.setContentsMargins(34, 0, 0, 0)
-        self.subtasks_layout.setSpacing(4)
+        self.subtasks_layout.setSpacing(3)
         root.addWidget(self.subtasks_container)
 
         self.created_at_label = QLabel()

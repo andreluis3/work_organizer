@@ -40,11 +40,12 @@ class CourseCard(QFrame):
 
     def _build_ui(self) -> None:
         root = QVBoxLayout(self)
-        root.setContentsMargins(16, 14, 16, 14)
-        root.setSpacing(8)
+        root.setContentsMargins(14, 12, 14, 12)
+        root.setSpacing(7)
 
         self.title_label = QLabel()
         self.title_label.setObjectName("taskTitle")
+        self.title_label.setWordWrap(True)
         root.addWidget(self.title_label)
 
         self.progress_label = QLabel()

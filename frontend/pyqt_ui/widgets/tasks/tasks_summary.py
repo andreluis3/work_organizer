@@ -26,10 +26,10 @@ class _HeroStat(QFrame):
     def __init__(self, title: str, accent_color: str, parent=None) -> None:
         super().__init__(parent)
         self.setObjectName("heroStat")
-        self.setFixedHeight(88)
+        self.setFixedHeight(76)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(18, 12, 18, 12)
+        layout.setContentsMargins(16, 10, 16, 10)
         layout.setSpacing(2)
 
         self.value_label = QLabel("0")
