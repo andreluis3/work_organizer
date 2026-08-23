@@ -1,0 +1,279 @@
+
+📦work_organizer
+ ┣ 📂core
+ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┣ 📜agenda_manager.cpython-311.pyc
+ ┃ ┃ ┣ 📜agenda_manager.cpython-313.pyc
+ ┃ ┃ ┣ 📜__init__.cpython-311.pyc
+ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┣ 📜agenda_manager.py
+ ┃ ┗ 📜__init__.py
+ ┣ 📂css
+ ┣ 📂data
+ ┣ 📂database
+ ┣ 📂frontend
+ ┃ ┣ 📂assets
+ ┃ ┃ ┣ 📂focus
+ ┃ ┃ ┃ ┣ 📜tree_1.png
+ ┃ ┃ ┃ ┣ 📜tree_2.png
+ ┃ ┃ ┃ ┣ 📜tree_3.png
+ ┃ ┃ ┃ ┗ 📜tree_4.png
+ ┃ ┃ ┗ 📂icons
+ ┃ ┃ ┃ ┣ 📜calendar.png
+ ┃ ┃ ┃ ┣ 📜home.png
+ ┃ ┃ ┃ ┣ 📜leaf.png
+ ┃ ┃ ┃ ┣ 📜png1.png
+ ┃ ┃ ┃ ┣ 📜png2.png
+ ┃ ┃ ┃ ┣ 📜png3.png
+ ┃ ┃ ┃ ┣ 📜png4.png
+ ┃ ┃ ┃ ┗ 📜task.png
+ ┃ ┣ 📂components_tasks
+ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┣ 📜cards_tasks.cpython-311.pyc
+ ┃ ┃ ┃ ┗ 📜cards_tasks.cpython-313.pyc
+ ┃ ┃ ┗ 📜cards_tasks.py
+ ┃ ┣ 📂config
+ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┣ 📜settings.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜settings.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜__init__.cpython-311.pyc
+ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┣ 📜settings.json
+ ┃ ┃ ┣ 📜settings.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂pyqt_ui
+ ┃ ┃ ┣ 📂dialogs
+ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┣ 📜event_dialog.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜new_course_dialog.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜new_task_dialog.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜event_dialog.py
+ ┃ ┃ ┃ ┣ 📜new_course_dialog.py
+ ┃ ┃ ┃ ┣ 📜new_task_dialog.py
+ ┃ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┃ ┣ 📂pages
+ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┣ 📜agenda_page.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜base_page.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜dashboard_page.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜focus_page.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜notes_page.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜tasks_page.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜agenda_page.py
+ ┃ ┃ ┃ ┣ 📜base_page.py
+ ┃ ┃ ┃ ┣ 📜dashboard_page.py
+ ┃ ┃ ┃ ┣ 📜focus_page.py
+ ┃ ┃ ┃ ┣ 📜notes_page.py
+ ┃ ┃ ┃ ┣ 📜tasks_page.py
+ ┃ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┃ ┣ 📂styles
+ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┣ 📜loader.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜agenda.qss
+ ┃ ┃ ┃ ┣ 📜base.qss
+ ┃ ┃ ┃ ┣ 📜dashboard.qss
+ ┃ ┃ ┃ ┣ 📜dialogs.qss
+ ┃ ┃ ┃ ┣ 📜focus.qss
+ ┃ ┃ ┃ ┣ 📜loader.py
+ ┃ ┃ ┃ ┣ 📜notes.qss
+ ┃ ┃ ┃ ┣ 📜sidebar.qss
+ ┃ ┃ ┃ ┣ 📜tasks.qss
+ ┃ ┃ ┃ ┣ 📜topbar.qss
+ ┃ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┃ ┣ 📂viewmodels
+ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┣ 📜dashboard_viewmodel.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜focus_viewmodel.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜notes_viewmodel.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┗ 📜tasks_viewmodel.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜dashboard_viewmodel.py
+ ┃ ┃ ┃ ┣ 📜focus_viewmodel.py
+ ┃ ┃ ┃ ┣ 📜notes_viewmodel.py
+ ┃ ┃ ┃ ┗ 📜tasks_viewmodel.py
+ ┃ ┃ ┣ 📂widgets
+ ┃ ┃ ┃ ┣ 📂dashboard
+ ┃ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜dashboard_charts.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜dashboard_forest.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜dashboard_goal.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜dashboard_header.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜dashboard_hero.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜dashboard_charts.py
+ ┃ ┃ ┃ ┃ ┣ 📜dashboard_forest.py
+ ┃ ┃ ┃ ┃ ┣ 📜dashboard_goal.py
+ ┃ ┃ ┃ ┃ ┣ 📜dashboard_header.py
+ ┃ ┃ ┃ ┃ ┗ 📜dashboard_hero.py
+ ┃ ┃ ┃ ┣ 📂focus
+ ┃ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜forest_panel_widget.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜metrics_panel_widget.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜timer_ring_widget.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜forest_panel_widget.py
+ ┃ ┃ ┃ ┃ ┣ 📜metrics_panel_widget.py
+ ┃ ┃ ┃ ┃ ┗ 📜timer_ring_widget.py
+ ┃ ┃ ┃ ┣ 📂notes
+ ┃ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜notes_editor.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜notes_sidebar.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜notes_editor.py
+ ┃ ┃ ┃ ┃ ┣ 📜notes_sidebar.py
+ ┃ ┃ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┃ ┃ ┣ 📂tasks
+ ┃ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜course_card.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜history_section.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜kanban_column.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜tasks_summary.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜task_card.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜task_section.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜course_card.py
+ ┃ ┃ ┃ ┃ ┣ 📜history_section.py
+ ┃ ┃ ┃ ┃ ┣ 📜kanban_column.py
+ ┃ ┃ ┃ ┃ ┣ 📜tasks_summary.py
+ ┃ ┃ ┃ ┃ ┣ 📜task_card.py
+ ┃ ┃ ┃ ┃ ┗ 📜task_section.py
+ ┃ ┃ ┃ ┣ 📂trees_imgs
+ ┃ ┃ ┃ ┃ ┣ 📜tree1.png
+ ┃ ┃ ┃ ┃ ┗ 📜treecompleta .png
+ ┃ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┃ ┣ 📜calendar_day_cell.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜sidebar.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜stat_card.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┣ 📜topbar.cpython-313.pyc
+ ┃ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜calendar_day_cell.py
+ ┃ ┃ ┃ ┣ 📜sidebar.py
+ ┃ ┃ ┃ ┣ 📜stat_card.py
+ ┃ ┃ ┃ ┣ 📜topbar.py
+ ┃ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┣ 📜main_window.cpython-313.pyc
+ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┣ 📜main_window.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂services
+ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┣ 📜metrics.cpython-313.pyc
+ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┣ 📜metrics.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂telas
+ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┣ 📜academia.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜agenda.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜agenda.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜base_screen.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜base_screen.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜configuracoes.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜configuracoes.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜cursos.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜cursos.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜dashboard.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜dashboard.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜focus.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜focus.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜focustime.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜focus_controller.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜focus_controller.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜focus_ui.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜focus_ui.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜forest_system.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜forest_system.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜notes.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜notes.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜splash.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜splash.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜tasks.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜tasks.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜__init__.cpython-311.pyc
+ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┣ 📜agenda.py
+ ┃ ┃ ┣ 📜base_screen.py
+ ┃ ┃ ┣ 📜configuracoes.py
+ ┃ ┃ ┣ 📜cursos.py
+ ┃ ┃ ┣ 📜dashboard.py
+ ┃ ┃ ┣ 📜focus.py
+ ┃ ┃ ┣ 📜focustime.py
+ ┃ ┃ ┣ 📜focus_controller.py
+ ┃ ┃ ┣ 📜focus_ui.py
+ ┃ ┃ ┣ 📜forest_system.py
+ ┃ ┃ ┣ 📜notes.py
+ ┃ ┃ ┣ 📜splash.py
+ ┃ ┃ ┣ 📜tasks.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂widgets
+ ┃ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┃ ┣ 📜anim.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜anim.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜cards.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜cards.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜toast.cpython-311.pyc
+ ┃ ┃ ┃ ┣ 📜toast.cpython-313.pyc
+ ┃ ┃ ┃ ┣ 📜__init__.cpython-311.pyc
+ ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┃ ┣ 📜anim.py
+ ┃ ┃ ┣ 📜cards.py
+ ┃ ┃ ┣ 📜toast.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┣ 📜app_controller.cpython-311.pyc
+ ┃ ┃ ┣ 📜app_controller.cpython-313.pyc
+ ┃ ┃ ┣ 📜app_state.cpython-311.pyc
+ ┃ ┃ ┣ 📜app_state.cpython-313.pyc
+ ┃ ┃ ┣ 📜interface.cpython-311.pyc
+ ┃ ┃ ┣ 📜interface.cpython-313.pyc
+ ┃ ┃ ┣ 📜loading_screen.cpython-311.pyc
+ ┃ ┃ ┣ 📜loading_screen.cpython-313.pyc
+ ┃ ┃ ┣ 📜sidebar.cpython-311.pyc
+ ┃ ┃ ┣ 📜sidebar.cpython-313.pyc
+ ┃ ┃ ┣ 📜theme.cpython-311.pyc
+ ┃ ┃ ┣ 📜theme.cpython-313.pyc
+ ┃ ┃ ┣ 📜ui_assets.cpython-311.pyc
+ ┃ ┃ ┣ 📜ui_assets.cpython-313.pyc
+ ┃ ┃ ┣ 📜__init__.cpython-311.pyc
+ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
+ ┃ ┣ 📜app_controller.py
+ ┃ ┣ 📜app_state.py
+ ┃ ┣ 📜interface.py
+ ┃ ┣ 📜loading_screen.py
+ ┃ ┣ 📜sidebar.py
+ ┃ ┣ 📜theme.py
+ ┃ ┣ 📜ui_assets.py
+ ┃ ┗ 📜__init__.py
+ ┣ 📂js
+ ┣ 📂notes
+ ┃ ┣ 📂__pycache__
+ ┃ ┃ ┣ 📜markdown_parser.cpython-311.pyc
+ ┃ ┃ ┣ 📜markdown_parser.cpython-313.pyc
+ ┃ ┃ ┣ 📜notes_ai.cpython-311.pyc
+ ┃ ┃ ┣ 📜notes_ai.cpython-313.pyc
+ ┃ ┃ ┣ 📜notes_controller.cpython-311.pyc
+ ┃ ┃ ┣ 📜notes_controller.cpython-313.pyc
+ ┃ ┃ ┣ 📜notes_model.cpython-313.pyc
+ ┃ ┃ ┣ 📜notes_ui.cpython-311.pyc
+ ┃ ┃ ┣ 📜notes_ui.cpython-313.pyc
+ ┃ ┃ ┣ 📜templates.cpython-311.pyc
+ ┃ ┃ ┗ 📜templates.cpython-313.pyc
+ ┃ ┣ 📜notes_ai.py
+ ┃ ┣ 📜notes_controller.py
+ ┃ ┣ 📜notes_ui.py
+ ┃ ┗ 📜templates.py
+ ┣ 📂__pycache__
+ ┃ ┗ 📜main.cpython-313.pyc
+ ┣ 📜.codex
+ ┣ 📜.gitattributes
+ ┣ 📜.gitignore
+ ┣ 📜abrir_no_pc_windowns
+ ┣ 📜erros.txt
+ ┣ 📜main.py
+ ┣ 📜main_pyqt6.py
+ ┣ 📜organizador.db
+ ┣ 📜readme.md
+ ┣ 📜referencia.jpg
+ ┣ 📜requirements.txt
+ ┣ 📜telafoco.png
+ ┗ 📜tela_nova.png

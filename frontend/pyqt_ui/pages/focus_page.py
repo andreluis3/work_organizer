@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import (
+    QCheckBox,
     QFrame,
     QHBoxLayout,
     QLabel,
     QLineEdit,
     QProgressBar,
     QPushButton,
+    QSpinBox,
     QVBoxLayout,
     QWidget,
 )
@@ -23,7 +26,8 @@ class FocusPage(BasePage):
     """Página do Focus Time / Pomodoro.
 
     Só monta layout e conecta sinais. Nenhuma regra de negócio, nenhum SQL —
-    tudo isso vive em FocusViewModel -> PomodoroController -> PomodoroService.
+    tudo isso vive em FocusViewModel -> PomodoroController -> PomodoroService
+    (e, para o modo Pomodoro, em PomodoroManager, que a ViewModel orquestra).
 
     Segue o contrato do BasePage: NÃO sobrescreve `_build_layout()` (que já
     monta header + `self.content`/`self.content_layout`). Os widgets da
@@ -37,11 +41,12 @@ class FocusPage(BasePage):
         self.view_model = FocusViewModel()
         self.view_model.view_state_changed.connect(self._on_view_state_changed)
         self.view_model.session_completed.connect(self._on_session_completed)
+        self.view_model.pomodoro_state_changed.connect(self._on_pomodoro_state_changed)
 
         super().__init__(parent)  # monta self.content / self.content_layout e a intro animation
         self.setObjectName("focusPage")
+        self.setFont(QFont("Segoe UI"))
         self.view_model.setParent(self)
-
         self._build_focus_layout()
 
     def on_show(self) -> None:
@@ -72,13 +77,80 @@ class FocusPage(BasePage):
 
         # Sincroniza a UI com o estado inicial da ViewModel antes do primeiro on_show().
         self._on_view_state_changed(self.view_model.get_current_state())
+        self._on_pomodoro_state_changed(self.view_model.get_pomodoro_state())
 
     def _build_center_panel(self) -> QFrame:
         panel = QFrame()
         panel.setObjectName("focusCenterPanel")
 
-        layout = QVBoxLayout(panel)
-        layout.setContentsMargins(24, 28, 24, 28)
+        outer_layout = QHBoxLayout(panel)
+        outer_layout.setContentsMargins(24, 28, 24, 28)
+        outer_layout.setSpacing(20)
+
+        outer_layout.addWidget(self._build_pomodoro_settings_box())
+        outer_layout.addLayout(self._build_focus_column())
+
+        return panel
+
+    def _build_pomodoro_settings_box(self) -> QFrame:
+        box = QFrame()
+        box.setObjectName("settingsBox")
+        box.setFixedWidth(210)
+
+        layout = QVBoxLayout(box)
+        layout.setContentsMargins(16, 18, 16, 18)
+        layout.setSpacing(12)
+
+        self._pomodoro_checkbox = QCheckBox("Ativar modo Pomodoro")
+        self._pomodoro_checkbox.setObjectName("pomodoroCheckbox")
+        self._pomodoro_checkbox.stateChanged.connect(self._on_pomodoro_toggled)
+        layout.addWidget(self._pomodoro_checkbox)
+
+        self._pomodoro_fields_widget = QWidget()
+        fields_layout = QVBoxLayout(self._pomodoro_fields_widget)
+        fields_layout.setContentsMargins(0, 0, 0, 0)
+        fields_layout.setSpacing(10)
+
+        self._focus_spin = self._build_pomodoro_spin(fields_layout, "Tempo de foco (min)", default=25, minimum=1, maximum=180)
+        self._break_spin = self._build_pomodoro_spin(fields_layout, "Tempo de pausa (min)", default=5, minimum=1, maximum=60)
+        self._cycles_spin = self._build_pomodoro_spin(fields_layout, "Quantidade de ciclos", default=4, minimum=1, maximum=20)
+
+        for spin in (self._focus_spin, self._break_spin, self._cycles_spin):
+            spin.valueChanged.connect(self._on_pomodoro_config_changed)
+
+        layout.addWidget(self._pomodoro_fields_widget)
+        self._pomodoro_fields_widget.setVisible(False)
+
+        self._phase_label = QLabel("")
+        self._phase_label.setObjectName("phaseLabel")
+        self._phase_label.setWordWrap(True)
+        layout.addWidget(self._phase_label)
+
+        layout.addStretch()
+        return box
+
+    def _build_pomodoro_spin(
+        self,
+        parent_layout: QVBoxLayout,
+        caption: str,
+        default: int,
+        minimum: int,
+        maximum: int,
+    ) -> QSpinBox:
+        caption_label = QLabel(caption)
+        caption_label.setObjectName("pomodoroFieldCaption")
+        parent_layout.addWidget(caption_label)
+
+        spin = QSpinBox()
+        spin.setObjectName("pomodoroSpin")
+        spin.setRange(minimum, maximum)
+        spin.setValue(default)
+        parent_layout.addWidget(spin)
+        return spin
+
+    def _build_focus_column(self) -> QVBoxLayout:
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(18)
         layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
@@ -139,9 +211,9 @@ class FocusPage(BasePage):
 
         layout.addLayout(button_row)
 
-        return panel
+        return layout
 
-    # ---- eventos de UI ----
+    # ---- eventos de UI: timer ----
 
     def _on_primary_clicked(self) -> None:
         self.view_model.handle_primary_action(self._read_minutes())
@@ -154,6 +226,22 @@ class FocusPage(BasePage):
         # Não sei ainda como o toast está exposto no seu AppState/MainWindow
         # novo — me avisa se quiser que eu conecte isso.
         pass
+
+    # ---- eventos de UI: pomodoro ----
+
+    def _on_pomodoro_toggled(self, checked_state: int) -> None:
+        enabled = checked_state == Qt.CheckState.Checked.value
+        self._pomodoro_fields_widget.setVisible(enabled)
+        self.view_model.set_pomodoro_enabled(enabled)
+        if enabled:
+            self._on_pomodoro_config_changed()
+
+    def _on_pomodoro_config_changed(self, *_args) -> None:
+        self.view_model.update_pomodoro_config(
+            focus_minutes=self._focus_spin.value(),
+            break_minutes=self._break_spin.value(),
+            total_cycles=self._cycles_spin.value(),
+        )
 
     # ---- reação ao estado da ViewModel ----
 
@@ -168,7 +256,6 @@ class FocusPage(BasePage):
         self._xp_bar.setValue(int(state.xp_progress * 100))
         self._xp_label.setText(state.xp_text)
         self._primary_button.setText(state.primary_label)
-
         self._metrics_panel.update_data(
             total_focused=state.total_focused_text,
             completed_sessions=str(state.metrics.completed_sessions),
@@ -180,6 +267,15 @@ class FocusPage(BasePage):
         if is_stopped:
             self._minutes_input.setText(str(state.session_minutes))
         self._minutes_input.setEnabled(is_stopped)
+
+        # Trava a configuração do Pomodoro enquanto uma sessão está rodando/pausada.
+        self._pomodoro_checkbox.setEnabled(is_stopped)
+        pomodoro_enabled = self.view_model.get_pomodoro_state().enabled
+        for spin in (self._focus_spin, self._break_spin, self._cycles_spin):
+            spin.setEnabled(is_stopped and pomodoro_enabled)
+
+    def _on_pomodoro_state_changed(self, snapshot) -> None:
+        self._phase_label.setText(snapshot.phase_label)
 
     def _read_minutes(self) -> int | None:
         raw_value = self._minutes_input.text().strip()

@@ -97,23 +97,13 @@ O requirements.txt contém:
 - PyQt6 Qt6
 - PyQt6 sip
 
-
 IMPORTANTE:
-
 Sempre usar:
-
 python -m pip install
-
-
 Evitar:
-
 pip install
-
-
 Porque "pip" sozinho pode instalar no Python errado
 (Anaconda, Python global etc).
-
-
 ========================================================
 5 - TESTAR O PYQT6
 ========================================================
@@ -121,7 +111,6 @@ Porque "pip" sozinho pode instalar no Python errado
 Teste:
 
 python -c "from PyQt6.QtGui import QFont; print('QtGui funcionando!')"
-
 
 Resultado esperado:
 
