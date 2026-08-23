@@ -27,6 +27,7 @@ MUTED = QColor("#94A3B8")
 
 
 
+
 class DashboardChartsWidget(QFrame):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -89,6 +90,14 @@ class DashboardChartsWidget(QFrame):
         self.sessions_axis_x = QBarCategoryAxis()
         self.sessions_axis_y = QValueAxis()
         self.sessions_axis_y.setLabelFormat("%d")
+        
+        AXIS_LABEL_COLOR = QColor("#C5D2E8")  
+
+      
+        self.focus_axis_x.setLabelsColor(AXIS_LABEL_COLOR)
+        self.focus_axis_y.setLabelsColor(AXIS_LABEL_COLOR)
+        self.focus_axis_x.setGridLineColor(QColor("#262626"))
+        self.focus_axis_y.setGridLineColor(QColor("#262626"))
 
         chart.addAxis(self.sessions_axis_x, Qt.AlignmentFlag.AlignBottom)
         chart.addAxis(self.sessions_axis_y, Qt.AlignmentFlag.AlignLeft)
