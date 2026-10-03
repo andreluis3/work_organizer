@@ -5,8 +5,6 @@ from PyQt6.QtWidgets import QFrame, QGridLayout, QLabel, QVBoxLayout
 
 
 class ForestPanelWidget(QFrame):
-    """Painel 'burro': mostra a floresta conquistada no mês."""
-
     COLUMNS = 4
 
     def __init__(self, parent=None) -> None:
